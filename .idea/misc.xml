@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/fatih/AndroidStudioProjects/Epic/app/src/main/res/drawable/et_style.xml" value="0.1785" />
+        <entry key="..\:/Users/fatih/AndroidStudioProjects/Epic/app/src/main/res/drawable/rect_rounded_button.xml" value="0.1785" />
+        <entry key="..\:/Users/fatih/AndroidStudioProjects/Epic/app/src/main/res/font/baloo_thambi.xml" value="0.33055555555555555" />
+        <entry key="..\:/Users/fatih/AndroidStudioProjects/Epic/app/src/main/res/layout/activity_main.xml" value="0.3625" />
+        <entry key="..\:/Users/fatih/AndroidStudioProjects/Epic/app/src/main/res/layout/activity_sign_in.xml" value="0.3625" />
+        <entry key="..\:/Users/fatih/Desktop/Archive/Code/Epic-Repertory/app/src/main/res/layout/activity_main.xml" value="0.3625" />
+        <entry key="..\:/Users/fatih/Desktop/Archive/Code/Epic-Repertory/app/src/main/res/layout/activity_sign_in.xml" value="0.3625" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
