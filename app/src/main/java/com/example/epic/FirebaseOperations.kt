@@ -1,19 +1,12 @@
-package com.example.epicrepertory
+package com.example.epic
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
-import com.example.epic.MainActivity
-import com.example.epic.SignInActivity
-import com.example.epicrepertory.data.Music
-import com.example.epicrepertory.data.User
+import com.example.epic.data.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 class FirebaseOperations(private val context: Context) {
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -33,6 +26,20 @@ class FirebaseOperations(private val context: Context) {
                 }
             }
         }
+    }
+
+    fun signUpToAuthentication(email: String, password: String): Boolean {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                showMessage("Account creation failed")
+                return@addOnCompleteListener
+            }
+
+            Thread.sleep(150)
+            val intent = Intent(context, SignInActivity::class.java)
+            startActivity(context, intent, null)
+        }
+        return true
     }
 
     fun signUpToDatabase(

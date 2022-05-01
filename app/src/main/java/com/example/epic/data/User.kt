@@ -1,4 +1,4 @@
-package com.example.epicrepertory.data
+package com.example.epic.data
 
 data class User(
     val username: String? = null,

@@ -129,7 +129,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:fontFamily="@font/athiti_bold"
-                android:onClick="goSignUpPage"
+                android:onClick="goToSignUpPage"
                 android:text="@string/create_an_account"
                 android:textAlignment="center"
                 android:textColor="#0B4654"

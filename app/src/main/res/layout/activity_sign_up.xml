@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUpActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <ImageView
+            android:id="@+id/sign_up_image"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:contentDescription="@string/sign_up_image"
+            android:src="@drawable/sign_in_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatCheckedTextView
+            android:id="@+id/sign_up_tv_create_account"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/athiti_bold"
+            android:text="@string/create_account"
+            android:textColor="#0B4654"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sign_up_image" />
+
+        <EditText
+            android:id="@+id/sign_up_et_username"
+            style="@style/SignUpStyle"
+            android:layout_marginTop="16dp"
+            android:autofillHints=""
+            android:hint="@string/username"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:paddingStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_tv_create_account"
+            tools:ignore="RtlSymmetry" />
+
+        <EditText
+            android:id="@+id/sign_up_et_full_name"
+            style="@style/SignUpStyle"
+            android:layout_marginTop="16dp"
+            android:autofillHints=""
+            android:hint="@string/full_name"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:paddingStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_et_username"
+            tools:ignore="RtlSymmetry" />
+
+        <EditText
+            android:id="@+id/sign_up_et_email"
+            style="@style/SignUpStyle"
+            android:clickable="true"
+            android:background="@drawable/et_style"
+            android:hint="@string/email_address"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp"
+            android:paddingStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_et_full_name"
+            tools:ignore="RtlSymmetry" />
+
+        <EditText
+            android:id="@+id/sign_up_et_password"
+            style="@style/SignUpStyle"
+            android:autofillHints=""
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:paddingStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_et_email"
+            tools:ignore="RtlSymmetry" />
+
+        <EditText
+            android:id="@+id/sign_up_et_re_password"
+            style="@style/SignUpStyle"
+            android:autofillHints=""
+            android:hint="@string/confirm_password"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:paddingStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_et_password"
+            tools:ignore="RtlSymmetry" />
+
+        <LinearLayout
+            android:id="@+id/sign_up_cb_box"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_et_re_password">
+
+            <CheckBox
+                android:id="@+id/sign_up_cb_terms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/athiti_semibold"
+                android:textColor="#0B4654"
+                android:text="@string/i_agree_with_terms_and_privacy"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatCheckedTextView
+                android:id="@+id/sign_up_tv_terms_and_privacy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="?attr/selectableItemBackground"
+                android:textColor="#0B4654"
+                android:clickable="true"
+                android:fontFamily="@font/athiti_bold"
+                android:text="@string/terms_and_privacy"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/sign_up_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rect_rounded_button"
+            style="@style/ShapeAppearanceOverlay.Material3.Button"
+            android:fontFamily="@font/baloo_thambi"
+            android:minHeight="48dp"
+            android:text="@string/sign_up"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_cb_box" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

@@ -1,11 +1,12 @@
 package com.example.epic
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.example.epic.databinding.ActivitySignInBinding
-import com.example.epicrepertory.FirebaseOperations
 
 class SignInActivity : AppCompatActivity() {
 
@@ -25,7 +26,9 @@ class SignInActivity : AppCompatActivity() {
 
         loginProcess()
 
+
     }
+
 
     private fun loginProcess() {
         val firebaseOperations = FirebaseOperations(this)
@@ -38,5 +41,9 @@ class SignInActivity : AppCompatActivity() {
             }
             firebaseOperations.signInAuthentication(email, password)
         }
+    }
+
+    fun goToSignUpPage(view: View) {
+        startActivity(Intent(this, SignUpActivity::class.java))
     }
 }
