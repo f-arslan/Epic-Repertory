@@ -53,8 +53,6 @@ class FirebaseOperations(private val context: Context) {
         database.child(username).setValue(user).addOnFailureListener {
             showMessage("Database operation failed")
             return@addOnFailureListener
-        }.addOnSuccessListener {
-            showMessage("Database operation successfully")
         }
     }
 
