@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".fragments.SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_margin="16dp">
 
+
+        <SearchView
+            android:id="@+id/search_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/et_style"
+            android:iconifiedByDefault="false"
+            android:minHeight="48dp"
+            android:queryHint="@string/search_music"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_search_view">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="50dp"
+                android:background="@drawable/et_style"
+                android:padding="8dp"
+                android:scrollbars="vertical"
+                tools:ignore="RtlSymmetry" />
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
