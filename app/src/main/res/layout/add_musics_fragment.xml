@@ -1,13 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.AddMusicsFragment">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
 
-</FrameLayout>
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_marginTop="16dp"
+            android:layout_height="80dp"
+            android:id="@+id/imageView"
+            android:background="@drawable/music_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/search_music" />
+
+        <androidx.appcompat.widget.AppCompatCheckedTextView
+            android:id="@+id/add_music_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/athiti_bold"
+            android:text="@string/add_your_music_line_by_line"
+            android:textAlignment="center"
+            android:textColor="@color/dark_blue"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_music_title_edit_text"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="28dp"
+            android:fontFamily="@font/baloo_thambi"
+            android:hint="@string/your_title"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_music_header" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_music_artist_edit_text"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo_thambi"
+            android:hint="@string/enter_artist_name"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="16dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_music_title_edit_text" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_music_tone_input_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="wrap_content"
+            app:hintAnimationEnabled="true"
+            android:layout_height="wrap_content"
+            android:hint="@string/tones"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="24dp"
+            android:text="@string/select_your_tone"
+            app:layout_constraintStart_toEndOf="@id/add_music_title_edit_text"
+            app:layout_constraintTop_toBottomOf="@id/add_music_header">
+
+            <AutoCompleteTextView
+                android:id="@+id/add_music_tones_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:dropDownHeight="250dp"
+                android:fontFamily="@font/baloo_thambi"
+                android:inputType="none"
+                android:text="@string/c"
+                android:textColor="#757575"
+                android:textSize="16sp"
+                tools:ignore="LabelFor" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/add_music_user_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/detail"
+            android:padding="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_music_artist_edit_text">
+
+            <TextView
+                android:id="@+id/add_music_line_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/athiti_bold"
+                android:text="@string/line_1"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_music_lyrics_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/athiti_bold"
+                android:hint="@string/enter_your_lyrics"
+                android:minHeight="48dp"
+                android:textColorHint="#78909C"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_music_line_tv" />
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_music_chord_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/athiti_bold"
+                android:hint="@string/enter_your_chord"
+                android:minHeight="48dp"
+                android:textColorHint="#78909C"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_music_lyrics_et" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_music_rhythm_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/athiti_bold"
+                android:hint="@string/rythm"
+                android:minHeight="48dp"
+                android:textColorHint="#78909C"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_music_chord_et" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_music_btn_back_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toStartOf="@id/add_music_btn_next_page"
+                android:backgroundTint="@color/dark_blue"
+                android:text="@string/back_page"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_music_rhythm_et" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_music_btn_next_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/dark_blue"
+                android:layout_marginTop="8dp"
+                android:text="@string/next_page"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@id/add_music_btn_back_page"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_music_rhythm_et" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/add_music_btn_add_db_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_music_user_container">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_music_btn_add_db"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:backgroundTint="@color/dark_blue"
+                android:text="@string/add_music"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

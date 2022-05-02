@@ -2,11 +2,16 @@ package com.example.epic
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import com.example.epic.data.Music
 import com.example.epic.data.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class FirebaseOperations(private val context: Context) {
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -65,6 +70,29 @@ class FirebaseOperations(private val context: Context) {
             getUser(email)
             changeActivity()
         }
+
+    }
+
+    fun addMusicToDatabase(music: Music, username: String) {
+        val database = firebaseDatabase.getReference("Musics")
+        val userDatabase = firebaseDatabase.getReference("Users")
+        database.child(music.id.toString()).setValue(music).addOnFailureListener {
+            showMessage("Database operation failed")
+            return@addOnFailureListener
+        }
+        userDatabase.child(username).child("musicList").addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                showMessage("Database operation failed")
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val musicList = p0.value.toString()
+                val newMusicList = musicList + "," + music.id.toString()
+                userDatabase.child(username).child("musicList").setValue(newMusicList)
+                Log.i("MusicList", newMusicList)
+            }
+        })
 
     }
 
