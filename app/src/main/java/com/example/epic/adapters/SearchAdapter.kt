@@ -14,12 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.epic.DetailActivity
 import com.example.epic.R
 import com.example.epic.data.Music
-import com.example.epic.fragments.SearchFragment
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 
 class SearchAdapter(
-    private val musicList: List<Music>,
+    private val musicList: MutableList<Music>,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 

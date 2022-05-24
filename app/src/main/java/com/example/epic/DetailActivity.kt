@@ -3,17 +3,22 @@ package com.example.epic
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.epic.adapters.DetailCommentAdapter
 import com.example.epic.data.DataSource
 import com.example.epic.databinding.ActivityDetailBinding
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickListener {
 
     private lateinit var binding: ActivityDetailBinding
     private var musicDataSource = DataSource().loadMusics()
+    private var commentDataSource = DataSource().loadComments()
+    private var adapter = DetailCommentAdapter(commentDataSource, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +31,38 @@ class DetailActivity : AppCompatActivity() {
 
         fillDataFromDb(title)
 
+        // TextView scrollable
+        tvScrollable()
         toneAdapterSettings()
+        recycleViewInit()
+
+        sendCommentButton()
 
 
+    }
+
+    private fun sendCommentButton() {
+        binding.detailBtnCommentSend.setOnClickListener {
+            val comment = binding.detailCommentEt.text.toString()
+            if (comment.isEmpty()) {
+                Toast.makeText(this, "Please enter a comment", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+        }
+    }
+
+    private fun tvScrollable() {
+        binding.detailTvLyrics.movementMethod = ScrollingMovementMethod()
+    }
+
+    private fun recycleViewInit() {
+        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        binding.apply {
+            detailCommentRecyclerView.layoutManager = linearLayoutManager
+            detailCommentRecyclerView.adapter = adapter
+        }
     }
 
     private fun fillDataFromDb(title: String?) {
@@ -58,5 +92,9 @@ class DetailActivity : AppCompatActivity() {
         val tones = resources.getStringArray(R.array.tones)
         val adapter = ArrayAdapter(this, R.layout.dropdown_item, tones)
         binding.detailAutoCompleteTextView.setAdapter(adapter)
+    }
+
+    override fun onItemClick(position: Int) {
+        return
     }
 }

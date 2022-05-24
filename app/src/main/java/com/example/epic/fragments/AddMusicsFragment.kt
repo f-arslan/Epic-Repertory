@@ -1,14 +1,14 @@
 package com.example.epic.fragments
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.epic.FirebaseOperations
 import com.example.epic.R
 import com.example.epic.data.Music
@@ -24,6 +24,7 @@ class AddMusicsFragment : Fragment() {
     private lateinit var binding: AddMusicsFragmentBinding
     private lateinit var firebaseOperations: FirebaseOperations
     private val mutableMapOfMusic = mutableMapOf<Int, MutableList<String>>()
+    private var lineNumber = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +36,7 @@ class AddMusicsFragment : Fragment() {
 
         initializeToneSpinner()
         pageOperations()
+        Log.i("AddMusicsFragment", "onCreateView")
 
         val username = readUserNameFromFile()
         addMusicToDatabase(username)
@@ -42,6 +44,7 @@ class AddMusicsFragment : Fragment() {
         return viewOfLayout
     }
 
+    @SuppressLint("SetTextI18n")
     private fun addMusicToDatabase(username: String) {
         binding.addMusicBtnAddDb.setOnClickListener {
             val lyrics = mutableListOf<String>()
@@ -57,9 +60,9 @@ class AddMusicsFragment : Fragment() {
                 binding.addMusicTitleEditText.text.toString(),
                 binding.addMusicArtistEditText.text.toString(),
                 "img",
-                lyrics.joinToString(","),
-                chords.joinToString(","),
-                rhythm.joinToString(","),
+                lyrics.joinToString("|"),
+                chords.joinToString("|"),
+                rhythm.joinToString("|"),
                 binding.addMusicTonesTv.text.toString()
             )
             firebaseOperations.addMusicToDatabase(music, username)
@@ -70,6 +73,11 @@ class AddMusicsFragment : Fragment() {
                 mutableMapOfMusic[key]!![1] = ""
                 mutableMapOfMusic[key]!![2] = ""
             }
+            binding.addMusicTitleEditText.setText("")
+            binding.addMusicArtistEditText.setText("")
+            binding.addMusicTonesTv.setText("C")
+            binding.addMusicLineTv.text = "Line 1"
+            lineNumber = 1
         }
     }
 
@@ -79,7 +87,7 @@ class AddMusicsFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun pageOperations() {
-        var lineNumber = 1
+
         binding.addMusicBtnNextPage.setOnClickListener {
             if (mutableMapOfMusic[lineNumber + 1] != null) {
                 binding.apply {
@@ -127,7 +135,7 @@ class AddMusicsFragment : Fragment() {
         val bufferedReader = BufferedReader(inputStreamReader)
 
         val stringBuilder: StringBuilder = StringBuilder()
-        var text: String? = null
+        var text: String?
 
         while (run {
                 text = bufferedReader.readLine()
@@ -145,4 +153,19 @@ class AddMusicsFragment : Fragment() {
         binding.addMusicTonesTv.setAdapter(tonesAdapter)
     }
 
+    @SuppressLint("SetTextI18n")
+    override fun onPause() {
+        super.onPause()
+        for (key in mutableMapOfMusic.keys) {
+            mutableMapOfMusic[key]!![0] = ""
+            mutableMapOfMusic[key]!![1] = ""
+            mutableMapOfMusic[key]!![2] = ""
+        }
+        binding.addMusicTitleEditText.setText("")
+        binding.addMusicArtistEditText.setText("")
+        binding.addMusicTonesTv.setText("C")
+        binding.addMusicLineTv.text = "Line 1"
+        lineNumber = 1
+
+    }
 }

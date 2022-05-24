@@ -73,6 +73,10 @@ class FirebaseOperations(private val context: Context) {
 
     }
 
+    fun addCommentToDatabase(comment: String, music_id: String) {
+        TODO("Not yet implemented")
+    }
+
     fun addMusicToDatabase(music: Music, username: String) {
         val database = firebaseDatabase.getReference("Musics")
         val userDatabase = firebaseDatabase.getReference("Users")

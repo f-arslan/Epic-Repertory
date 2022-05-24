@@ -1,10 +1,14 @@
 package com.example.epic.data
 
+import com.example.epic.FirebaseOperations
+
 
 class DataSource {
     val musicList: MutableList<Music> = mutableListOf()
+    val commentList: MutableList<Comment> = mutableListOf()
 
-    fun loadMusics(): List<Music> {
+
+    fun loadMusics(): MutableList<Music> {
         musicList.addAll(mutableListOf(
             Music(
                 "1",
@@ -81,5 +85,19 @@ class DataSource {
         ))
 
         return musicList
+    }
+    fun loadComments(): List<Comment> {
+        commentList.addAll(
+            mutableListOf(
+                Comment(
+                    "1",
+                    "4",
+                    "f-arslan",
+                    "Nice song",
+                    "2022-05-05"
+                )
+            )
+        )
+        return commentList
     }
 }

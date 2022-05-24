@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/comment_constraint_layout"
+        android:clickable="false"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_comment_username"
+            android:layout_width="wrap_content"
+            android:clickable="false"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/athiti_bold"
+            android:text="@string/username"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/item_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:clickable="false"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/athiti_semibold"
+            android:text="@string/comment_section"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_comment_username"/>
+
+        <TextView
+            android:id="@+id/item_comment_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:clickable="false"
+            android:fontFamily="@font/athiti_semibold"
+            android:text="@string/date"
+            app:layout_constraintBottom_toTopOf="@id/item_comment_content"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="14sp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

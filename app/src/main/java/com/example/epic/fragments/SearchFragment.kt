@@ -3,49 +3,75 @@ package com.example.epic.fragments
 import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.epic.R
 import com.example.epic.adapters.SearchAdapter
-import com.example.epic.data.DataSource
 import com.example.epic.data.Music
 import com.example.epic.databinding.FragmentSearchBinding
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 
 
 class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
     private lateinit var viewOfLayout: View
     private lateinit var binding: FragmentSearchBinding
-    private var musicList = DataSource().loadMusics()
-    private var adapter = SearchAdapter(musicList, this)
+    private var musicListDb: MutableList<Music> = mutableListOf()
+    private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private lateinit var adapter: SearchAdapter
     private var tempMusicList: ArrayList<Music> = ArrayList()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         viewOfLayout = inflater.inflate(R.layout.fragment_search, container, false)
         binding = FragmentSearchBinding.bind(viewOfLayout)
-        recycleViewInitialize()
+
+        loadDataOnRecycleView()
 
         // Filter function
+
         filterSearch(inflater)
 
         return viewOfLayout
     }
 
+    private fun loadDataOnRecycleView() {
+        firebaseDatabase.getReference("Musics").addValueEventListener(object :
+            com.google.firebase.database.ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Log.d("TAG", "onCancelled: " + p0.message)
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(p0: com.google.firebase.database.DataSnapshot) {
+                musicListDb.clear()
+                for (data in p0.children) {
+                    val music = data.getValue(Music::class.java)
+                    musicListDb.add(music!!)
+                }
+                adapter = SearchAdapter(musicListDb, this@SearchFragment)
+                recycleViewInitialize()
+                binding.searchRecyclerView.adapter = adapter
+            }
+        })
+    }
 
 
     private fun filterSearch(inflater: LayoutInflater) {
         val typeface = ResourcesCompat.getFont(inflater.context, R.font.athiti_bold)
         binding.searchSearchView.setTypeFace(typeface)
 
-        for (music in musicList) {
+        for (music in musicListDb) {
             tempMusicList.add(music)
         }
 
@@ -58,7 +84,7 @@ class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 tempMusicList.clear()
                 val searchText = newText!!.lowercase(Locale.getDefault())
-                for (music in musicList) {
+                for (music in musicListDb) {
                     if (music.title!!.lowercase(Locale.getDefault()).contains(searchText)) {
                         tempMusicList.add(music)
                     }
@@ -79,6 +105,7 @@ class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
 
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun recycleViewInitialize() {
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL

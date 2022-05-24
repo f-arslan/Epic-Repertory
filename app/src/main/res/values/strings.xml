@@ -63,6 +63,9 @@
     <string name="back_page">Back Page</string>
     <string name="your_title">Enter Your Title…</string>
     <string name="enter_artist_name">Enter Artist Name…</string>
+    <string name="write_a_comment">Write a comment...</string>
+    <string name="comment_section">Comment Section</string>
+    <string name="date">Date</string>
 
     <string-array name="tones">
         <item>C</item>
