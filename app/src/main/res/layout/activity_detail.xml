@@ -59,14 +59,14 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <AutoCompleteTextView
-                    android:id="@+id/detail_auto_complete_text_view"
+                    android:id="@+id/detail_tone_textView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:dropDownHeight="250dp"
                     android:fontFamily="@font/baloo_thambi"
                     android:inputType="none"
-                    android:text="@string/c"
+
                     android:textColor="@color/dark_blue"
                     android:textSize="16sp"
                     tools:ignore="LabelFor" />

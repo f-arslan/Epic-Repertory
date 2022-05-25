@@ -25,6 +25,7 @@ class AddMusicsFragment : Fragment() {
     private lateinit var firebaseOperations: FirebaseOperations
     private val mutableMapOfMusic = mutableMapOf<Int, MutableList<String>>()
     private var lineNumber = 1
+    private lateinit var tonesAdapter: ArrayAdapter<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -149,7 +150,7 @@ class AddMusicsFragment : Fragment() {
 
     private fun initializeToneSpinner() {
         val tones = resources.getStringArray(R.array.tones)
-        val tonesAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, tones)
+        tonesAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, tones)
         binding.addMusicTonesTv.setAdapter(tonesAdapter)
     }
 
@@ -161,11 +162,13 @@ class AddMusicsFragment : Fragment() {
             mutableMapOfMusic[key]!![1] = ""
             mutableMapOfMusic[key]!![2] = ""
         }
-        binding.addMusicTitleEditText.setText("")
-        binding.addMusicArtistEditText.setText("")
-        binding.addMusicTonesTv.setText("C")
-        binding.addMusicLineTv.text = "Line 1"
-        lineNumber = 1
-
+        binding.apply {
+            addMusicTitleEditText.setText("")
+            addMusicArtistEditText.setText("")
+            addMusicTonesTv.setText("C")
+            initializeToneSpinner()
+            addMusicLineTv.text = "Line 1"
+            lineNumber = 1
+        }
     }
 }

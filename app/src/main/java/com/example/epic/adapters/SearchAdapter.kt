@@ -49,7 +49,7 @@ class SearchAdapter(
         holder.artistTextView.text = currentItem.artist
         holder.constraintLayout.setOnClickListener {
             val intent = Intent(holder.constraintLayout.context, DetailActivity::class.java)
-            intent.putExtra("MUSIC", currentItem.title)
+            intent.putExtra("MUSIC_ID", currentItem.id)
             startActivity(holder.constraintLayout.context, intent, null)
         }
     }
