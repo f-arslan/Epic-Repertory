@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import com.example.epic.data.Comment
 import com.example.epic.data.Music
 import com.example.epic.data.User
 import com.google.firebase.auth.FirebaseAuth
@@ -12,6 +13,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 class FirebaseOperations(private val context: Context) {
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -31,6 +34,24 @@ class FirebaseOperations(private val context: Context) {
                 }
             }
         }
+    }
+
+    fun readUserNameFromFile(): String {
+        val fileInputStream = context.openFileInput("user.txt")
+        val inputStreamReader = InputStreamReader(fileInputStream)
+        val bufferedReader = BufferedReader(inputStreamReader)
+
+        val stringBuilder: StringBuilder = StringBuilder()
+        var text: String?
+
+        while (run {
+                text = bufferedReader.readLine()
+                text
+            } != null) {
+            stringBuilder.append(text)
+        }
+        bufferedReader.close()
+        return stringBuilder.toString()
     }
 
     fun signUpToAuthentication(email: String, password: String): Boolean {
@@ -73,8 +94,12 @@ class FirebaseOperations(private val context: Context) {
 
     }
 
-    fun addCommentToDatabase(comment: String, music_id: String) {
-        TODO("Not yet implemented")
+    fun addCommentToDatabase(comment: Comment, musicId: String) {
+        val database = firebaseDatabase.getReference("Comments")
+        database.child(musicId).push().setValue(comment).addOnFailureListener {
+            showMessage(it.toString())
+            return@addOnFailureListener
+        }
     }
 
     fun addMusicToDatabase(music: Music, username: String) {

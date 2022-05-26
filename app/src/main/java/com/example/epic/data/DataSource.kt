@@ -90,7 +90,6 @@ class DataSource {
         commentList.addAll(
             mutableListOf(
                 Comment(
-                    "1",
                     "4",
                     "f-arslan",
                     "Nice song",

@@ -1,10 +1,10 @@
 package com.example.epic
 
+import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.method.ScrollingMovementMethod
 import android.text.style.ForegroundColorSpan
@@ -13,22 +13,27 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.epic.adapters.DetailCommentAdapter
+import com.example.epic.data.Comment
 import com.example.epic.data.DataSource
 import com.example.epic.data.Music
 import com.example.epic.databinding.ActivityDetailBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickListener {
 
     private lateinit var binding: ActivityDetailBinding
-    private var commentDataSource = DataSource().loadComments()
     private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
     private lateinit var toneAdapter: ArrayAdapter<String>
-    private var adapter = DetailCommentAdapter(commentDataSource, this)
+    private var commentInitializer = DataSource().loadComments()
+    private var firebaseOperations = FirebaseOperations(this)
+    private var commentAdapter: DetailCommentAdapter = DetailCommentAdapter(commentInitializer, this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,21 +49,64 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
 
         // TextView scrollable
         tvScrollable()
+        loadCommentFromDb(musicId)
         recycleViewInit()
-        sendCommentButton()
+        sendCommentButton(musicId)
 
 
     }
 
-    private fun sendCommentButton() {
+    @SuppressLint("SimpleDateFormat")
+    private fun sendCommentButton(musicId: String?) {
         binding.detailBtnCommentSend.setOnClickListener {
             val comment = binding.detailCommentEt.text.toString()
             if (comment.isEmpty()) {
                 Toast.makeText(this, "Please enter a comment", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            val username = firebaseOperations.readUserNameFromFile()
+            // Get data as day-Month-year
+            val date = SimpleDateFormat("dd-MM-yyyy").format(Date()).toString()
+            val commentObject = Comment(
+                musicId,
+                username,
+                comment,
+                date
+            )
+            if (musicId != null) {
+                firebaseOperations.addCommentToDatabase(commentObject, musicId).also {
+                    binding.detailCommentEt.text?.clear()
+                }
+            }
 
         }
+    }
+
+    private fun loadCommentFromDb(musicId: String?) {
+        if (musicId == null) {
+            return
+        }
+        firebaseDatabase.getReference("Comments").child(musicId).addValueEventListener(object :
+            ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("Error", error.toString())
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val comments = mutableListOf<Comment>()
+                    for (comment in snapshot.children) {
+                        val commentObject = comment.getValue(Comment::class.java)
+                        comments.add(commentObject!!)
+                    }
+                    commentAdapter = DetailCommentAdapter(comments, this@DetailActivity)
+                    commentAdapter.notifyDataSetChanged()
+                    binding.detailCommentRecyclerView.adapter = commentAdapter
+                    return
+                }
+            }
+        })
     }
 
     private fun tvScrollable() {
@@ -70,14 +118,14 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.apply {
             detailCommentRecyclerView.layoutManager = linearLayoutManager
-            detailCommentRecyclerView.adapter = adapter
+            detailCommentRecyclerView.adapter = commentAdapter
         }
     }
 
     private fun fillDataFromDb(musicId: String?) {
         if (musicId != null) {
             firebaseDatabase.getReference("Musics").addValueEventListener(object:
-            com.google.firebase.database.ValueEventListener {
+            ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (data in snapshot.children) {
                         if (data.key != musicId) {

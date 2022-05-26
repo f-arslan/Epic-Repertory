@@ -13,8 +13,6 @@ import com.example.epic.FirebaseOperations
 import com.example.epic.R
 import com.example.epic.data.Music
 import com.example.epic.databinding.AddMusicsFragmentBinding
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.util.*
 
 class AddMusicsFragment : Fragment() {
@@ -39,7 +37,7 @@ class AddMusicsFragment : Fragment() {
         pageOperations()
         Log.i("AddMusicsFragment", "onCreateView")
 
-        val username = readUserNameFromFile()
+        val username = firebaseOperations.readUserNameFromFile()
         addMusicToDatabase(username)
 
         return viewOfLayout
@@ -130,23 +128,7 @@ class AddMusicsFragment : Fragment() {
         }
     }
 
-    private fun readUserNameFromFile(): String {
-        val fileInputStream = context?.openFileInput("user.txt")
-        val inputStreamReader = InputStreamReader(fileInputStream)
-        val bufferedReader = BufferedReader(inputStreamReader)
 
-        val stringBuilder: StringBuilder = StringBuilder()
-        var text: String?
-
-        while (run {
-                text = bufferedReader.readLine()
-                text
-            } != null) {
-            stringBuilder.append(text)
-        }
-        bufferedReader.close()
-        return stringBuilder.toString()
-    }
 
     private fun initializeToneSpinner() {
         val tones = resources.getStringArray(R.array.tones)
