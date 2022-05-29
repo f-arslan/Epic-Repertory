@@ -35,8 +35,6 @@ class AddMusicsFragment : Fragment() {
 
         initializeToneSpinner()
         pageOperations()
-        Log.i("AddMusicsFragment", "onCreateView")
-
         val username = firebaseOperations.readUserNameFromFile()
         addMusicToDatabase(username)
 
@@ -46,6 +44,8 @@ class AddMusicsFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun addMusicToDatabase(username: String) {
         binding.addMusicBtnAddDb.setOnClickListener {
+            if (binding.addMusicTitleEditText.text.toString().isEmpty())
+                return@setOnClickListener
             val lyrics = mutableListOf<String>()
             val chords = mutableListOf<String>()
             val rhythm = mutableListOf<String>()
@@ -75,6 +75,7 @@ class AddMusicsFragment : Fragment() {
             binding.addMusicTitleEditText.setText("")
             binding.addMusicArtistEditText.setText("")
             binding.addMusicTonesTv.setText("C")
+            initializeToneSpinner()
             binding.addMusicLineTv.text = "Line 1"
             lineNumber = 1
         }
@@ -148,6 +149,8 @@ class AddMusicsFragment : Fragment() {
             addMusicTitleEditText.setText("")
             addMusicArtistEditText.setText("")
             addMusicTonesTv.setText("C")
+            addMusicLyricsEt.setText("")
+            addMusicChordEt.setText("")
             initializeToneSpinner()
             addMusicLineTv.text = "Line 1"
             lineNumber = 1

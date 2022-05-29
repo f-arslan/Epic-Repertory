@@ -3,7 +3,6 @@ package com.example.epic
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.method.ScrollingMovementMethod
@@ -11,6 +10,7 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.epic.adapters.DetailCommentAdapter
 import com.example.epic.data.Comment
@@ -33,7 +33,11 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
     private lateinit var toneAdapter: ArrayAdapter<String>
     private var commentInitializer = DataSource().loadComments()
     private var firebaseOperations = FirebaseOperations(this)
-    private var commentAdapter: DetailCommentAdapter = DetailCommentAdapter(commentInitializer, this)
+    private lateinit var globalChordList: List<String>
+    private lateinit var globalLyricsList: List<String>
+    private lateinit var currentTone: String
+    private var commentAdapter: DetailCommentAdapter =
+        DetailCommentAdapter(commentInitializer, this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,12 +51,51 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
 
         fillDataFromDb(musicId)
 
-        // TextView scrollable
         tvScrollable()
         loadCommentFromDb(musicId)
         recycleViewInit()
         sendCommentButton(musicId)
+        tonesListOperations()
+    }
 
+    private fun tonesListOperations() {
+        val tones: List<String> =
+            listOf("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
+        binding.detailToneTextView.setOnItemClickListener { adapterView, _, i, _ ->
+            val selectedTone: String = adapterView.getItemAtPosition(i).toString()
+            val selectedToneIndex: Int = tones.indexOf(selectedTone)
+            val totalMove: Int = selectedToneIndex - tones.indexOf(currentTone)
+            val tempChordList: MutableList<String> = mutableListOf()
+            if (totalMove == 0) {
+                preprocessLyrics(globalLyricsList.joinToString("|"), globalChordList.joinToString("|"))
+            } else {
+                for (line in globalChordList) {
+                    // Update the chord
+                    tempChordList.add(updateChord(line, totalMove))
+                }
+                preprocessLyrics(globalLyricsList.joinToString("|"), tempChordList.joinToString("|"))
+            }
+        }
+    }
+
+    private fun updateChord(line: String, totalMove: Int): String {
+        val tones: List<String> =
+            listOf("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
+        val realList = line.split(" ")
+        val tempList: MutableList<String> = mutableListOf()
+        for (i in realList.indices) {
+            if (realList[i].lowercase().contains("m")) {
+                val otherLetter = realList[i].substring(0, realList[i].length - 1)
+                val newValueIndex = (tones.indexOf(otherLetter) + totalMove) % tones.size
+                tempList.add(tones[newValueIndex] + "m")
+            } else if (realList[i].isNotEmpty()) {
+                val newValueIndex = (tones.indexOf(realList[i]) + totalMove) % tones.size
+                tempList.add(tones[newValueIndex])
+            } else {
+                tempList.add("")
+            }
+        }
+        return tempList.joinToString(" ")
 
     }
 
@@ -123,63 +166,71 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
     }
 
     private fun fillDataFromDb(musicId: String?) {
-        if (musicId != null) {
-            firebaseDatabase.getReference("Musics").addValueEventListener(object:
+        if (musicId == null) return
+        firebaseDatabase.getReference("Musics").addValueEventListener(object :
             ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for (data in snapshot.children) {
-                        if (data.key != musicId) {
-                            continue
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (data in snapshot.children) {
+                    if (data.key != musicId) {
+                        continue
+                    }
+                    val music = data.getValue(Music::class.java)
+                    binding.apply {
+                        detailTvTitle.text = music?.title
+                        val lyrics = music?.lyrics
+                        val chords = music?.chords
+                        if (lyrics != null) {
+                            globalLyricsList = lyrics.split("|")
                         }
-                        val music = data.getValue(Music::class.java)
-                        binding.apply {
-                            detailTvTitle.text = music?.title
-                            val lyrics = music?.lyrics
-                            val chords = music?.chords
-                            preprocessLyrics(lyrics, chords)
-                            music?.cover?.let { getImageFromStorage(it) }
-                            val tone = music?.tones
-                            if (tone != null) {
-                                toneAdapterSettings(tone)
-                            }
+                        if (chords != null) {
+                            globalChordList = chords.split("|")
+                        }
+                        preprocessLyrics(lyrics, chords)
+                        music?.cover?.let { getImageFromStorage(it) }
+                        val tone = music?.tones
+                        if (tone != null) {
+                            currentTone = tone
+                            toneAdapterSettings(tone)
+                        }
 
-                            return
-                        }
+                        return
                     }
                 }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
 
-                private fun preprocessLyrics(lyrics: String?, chords: String?) {
-                    val spannableStringBuilder = SpannableStringBuilder()
-                    val lyricsList = lyrics?.split("|")
-                    val chordsList = chords?.split("|")
+    fun preprocessLyrics(lyrics: String?, chords: String?) {
+        val spannableStringBuilder = SpannableStringBuilder()
+        val lyricsList = lyrics?.split("|")
+        val chordsList = chords?.split("|")
 
-                    for (i in 0 until lyricsList?.size!!) {
-                        spannableStringBuilder.append(lyricsList[i])
-                        spannableStringBuilder.append("\n")
-                        val red = ForegroundColorSpan(Color.RED)
-                        val spannableStringBuilderChord = SpannableStringBuilder(chordsList?.get(i))
-                        chordsList?.get(i)
-                            .let {
-                                if (it != null) {
-                                    spannableStringBuilderChord.setSpan(red, 0, it.length, 0)
-                                }
-                            }
-                        spannableStringBuilder.append(spannableStringBuilderChord)
-                        spannableStringBuilder.append("\n")
+        if (lyricsList != null) {
+            for (i in lyricsList.indices) {
+                spannableStringBuilder.append(lyricsList.get(i))
+                spannableStringBuilder.append("\n")
+                val red = ForegroundColorSpan(Color.rgb(150, 0, 0))
+                val spannableStringBuilderChord = SpannableStringBuilder(chordsList?.get(i))
+                chordsList?.get(i)
+                    .let {
+                        if (it != null) {
+                            spannableStringBuilderChord.setSpan(red, 0, it.length, 0)
+                        }
                     }
-                    // Remove last new line
-                    spannableStringBuilder.delete(spannableStringBuilder.length - 1, spannableStringBuilder.length)
-                    binding.detailTvLyrics.text = spannableStringBuilder
-
-                }
-
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-            })
-
+                spannableStringBuilder.append(spannableStringBuilderChord)
+                spannableStringBuilder.append("\n")
+            }
         }
+        // Remove last new line
+        spannableStringBuilder.delete(
+            spannableStringBuilder.length - 1,
+            spannableStringBuilder.length
+        )
+        binding.detailTvLyrics.text = spannableStringBuilder
+
     }
 
     private fun getImageFromStorage(imageName: String) {

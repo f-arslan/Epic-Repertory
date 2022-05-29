@@ -16,7 +16,7 @@
             android:layout_marginTop="16dp"
             android:layout_height="80dp"
             android:id="@+id/imageView"
-            android:background="@drawable/music_icon"
+            android:background="@drawable/add_music_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -63,27 +63,27 @@
     <string name="back_page">Back Page</string>
     <string name="your_title">Enter Your Title…</string>
     <string name="enter_artist_name">Enter Artist Name…</string>
-    <string name="write_a_comment">Write a comment...</string>
+    <string name="write_a_comment">Write a comment…</string>
     <string name="comment_section">Comment Section</string>
     <string name="date">Date</string>
+    <string name="epic_repertory">Epic Repertory\'s\nInformation</string>
+    <string name="total_musics">Total Musics:</string>
+    <string name="_100">100</string>
+    <string name="total_comments">Total Comments:</string>
+    <string name="total_users">Total Users:</string>
 
     <string-array name="tones">
         <item>C</item>
         <item>C#</item>
-        <item>Db</item>
         <item>D</item>
         <item>D#</item>
-        <item>Eb</item>
         <item>E</item>
         <item>F</item>
         <item>F#</item>
-        <item>Gb</item>
         <item>G</item>
         <item>G#</item>
-        <item>Ab</item>
         <item>A</item>
         <item>A#</item>
-        <item>Bb</item>
         <item>B</item>
     </string-array>
 </resources>

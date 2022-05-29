@@ -1,14 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <androidx.appcompat.widget.AppCompatCheckedTextView
+        android:id="@+id/home_tv_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/detail"
+        android:fontFamily="@font/athiti_bold"
+        android:text="@string/epic_repertory"
+        android:textAlignment="center"
+        android:textColor="@color/dark_blue"
+        android:textSize="27sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/detail"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/home_tv_header">
+
+
+        <LinearLayout
+            android:id="@+id/home_ll_total_musics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:useDefaultMargins="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_tv_header">
+
+            <ImageView
+                android:id="@+id/home_iv_music"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/music_icon"
+                android:contentDescription="@string/detail_image" />
+
+            <androidx.appcompat.widget.AppCompatCheckedTextView
+                android:id="@+id/home_tv_total_musics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/athiti_semibold"
+                android:text="@string/total_musics"
+                android:textSize="24sp" />
+
+            <androidx.appcompat.widget.AppCompatCheckedTextView
+                android:id="@+id/home_tv_total_musics_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/athiti_semibold"
+                android:text="@string/_100"
+                android:textColor="@color/orange_700"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/home_ll_total_comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:useDefaultMargins="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_ll_total_musics">
+
+            <ImageView
+                android:id="@+id/home_iv_comment"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/comment"
+                android:contentDescription="@string/detail_image" />
+
+            <androidx.appcompat.widget.AppCompatCheckedTextView
+                android:id="@+id/home_tv_total_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/athiti_semibold"
+                android:text="@string/total_comments"
+                android:textSize="24sp" />
+
+            <androidx.appcompat.widget.AppCompatCheckedTextView
+                android:id="@+id/home_tv_total_comment_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/athiti_semibold"
+                android:text="@string/_100"
+                android:textColor="@color/orange_700"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/home_ll_total_users"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:useDefaultMargins="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_ll_total_comments">
+
+            <ImageView
+                android:id="@+id/home_iv_user"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/user"
+                android:contentDescription="@string/detail_image" />
+
+            <androidx.appcompat.widget.AppCompatCheckedTextView
+                android:id="@+id/home_tv_total_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/athiti_semibold"
+                android:text="@string/total_users"
+                android:textSize="24sp" />
+
+            <androidx.appcompat.widget.AppCompatCheckedTextView
+                android:id="@+id/home_tv_total_user_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/orange_700"
+                android:fontFamily="@font/athiti_semibold"
+                android:text="@string/_100"
+                android:textSize="24sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
