@@ -1,6 +1,7 @@
 package com.example.epic
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.text.SpannableStringBuilder
 import android.text.method.ScrollingMovementMethod
 import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +27,8 @@ import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
+
 
 class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickListener {
 
@@ -36,6 +40,8 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
     private lateinit var globalChordList: List<String>
     private lateinit var globalLyricsList: List<String>
     private lateinit var currentTone: String
+    val tones: List<String> =
+        listOf("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
     private var commentAdapter: DetailCommentAdapter =
         DetailCommentAdapter(commentInitializer, this)
 
@@ -56,16 +62,33 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
         recycleViewInit()
         sendCommentButton(musicId)
         tonesListOperations()
+        goToYoutubePage(musicId)
+
     }
 
+    private fun goToYoutubePage(musicId: String?) {
+        binding.detailYoutubeContainer.setOnClickListener {
+            val intent = Intent(this, YouTubeActivity::class.java)
+            intent.putExtra("MUSIC_ID", musicId)
+            startActivity(intent)
+        }
+    }
+
+
     private fun tonesListOperations() {
-        val tones: List<String> =
-            listOf("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
         binding.detailToneTextView.setOnItemClickListener { adapterView, _, i, _ ->
             val selectedTone: String = adapterView.getItemAtPosition(i).toString()
             val selectedToneIndex: Int = tones.indexOf(selectedTone)
             val totalMove: Int = selectedToneIndex - tones.indexOf(currentTone)
             val tempChordList: MutableList<String> = mutableListOf()
+            if (!isValidString(globalChordList)) {
+                Toast.makeText(
+                    this,
+                    "Your chords is not valid",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnItemClickListener
+            }
             if (totalMove == 0) {
                 preprocessLyrics(globalLyricsList.joinToString("|"), globalChordList.joinToString("|"))
             } else {
@@ -78,6 +101,26 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
         }
     }
 
+    private fun isValidString(globalChordList: List<String>): Boolean {
+        Log.i("chord", globalChordList.toString())
+        for (elem in globalChordList) {
+            val chord = elem.split(" ")
+            for (chordElem in chord) {
+                if (chordElem.lowercase().contains("m")) {
+                    val firstParth = chordElem.substring(0, chordElem.indexOf("m"))
+                    if (!tones.contains(firstParth)) {
+                        return false
+                    }
+                } else if (chordElem.isNotEmpty()) {
+                    if (!tones.contains(chordElem)) {
+                        return false
+                    }
+                }
+            }
+        }
+        return true
+    }
+
     private fun updateChord(line: String, totalMove: Int): String {
         val tones: List<String> =
             listOf("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
@@ -86,10 +129,10 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
         for (i in realList.indices) {
             if (realList[i].lowercase().contains("m")) {
                 val otherLetter = realList[i].substring(0, realList[i].length - 1)
-                val newValueIndex = (tones.indexOf(otherLetter) + totalMove) % tones.size
+                val newValueIndex = abs(tones.indexOf(otherLetter) + totalMove) % tones.size
                 tempList.add(tones[newValueIndex] + "m")
             } else if (realList[i].isNotEmpty()) {
-                val newValueIndex = (tones.indexOf(realList[i]) + totalMove) % tones.size
+                val newValueIndex = abs(tones.indexOf(realList[i]) + totalMove) % tones.size
                 tempList.add(tones[newValueIndex])
             } else {
                 tempList.add("")
@@ -175,6 +218,13 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
                         continue
                     }
                     val music = data.getValue(Music::class.java)
+                    if (music != null) {
+                        if (music.youtubeLink != null) {
+                            binding.detailYoutubeContainer.visibility = View.VISIBLE
+                        } else {
+                            binding.detailYoutubeContainer.visibility = View.GONE
+                        }
+                    }
                     binding.apply {
                         detailTvTitle.text = music?.title
                         val lyrics = music?.lyrics
@@ -210,7 +260,7 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
 
         if (lyricsList != null) {
             for (i in lyricsList.indices) {
-                spannableStringBuilder.append(lyricsList.get(i))
+                spannableStringBuilder.append(lyricsList[i])
                 spannableStringBuilder.append("\n")
                 val red = ForegroundColorSpan(Color.rgb(150, 0, 0))
                 val spannableStringBuilderChord = SpannableStringBuilder(chordsList?.get(i))

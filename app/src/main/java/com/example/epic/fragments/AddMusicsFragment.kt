@@ -62,7 +62,8 @@ class AddMusicsFragment : Fragment() {
                 lyrics.joinToString("|"),
                 chords.joinToString("|"),
                 rhythm.joinToString("|"),
-                binding.addMusicTonesTv.text.toString()
+                binding.addMusicTonesTv.text.toString(),
+                binding.addMusicYoutubeEt.text.toString(),
             )
             firebaseOperations.addMusicToDatabase(music, username)
             Toast.makeText(context, "Music added", Toast.LENGTH_SHORT).show()
@@ -75,6 +76,7 @@ class AddMusicsFragment : Fragment() {
             binding.addMusicTitleEditText.setText("")
             binding.addMusicArtistEditText.setText("")
             binding.addMusicTonesTv.setText("C")
+            binding.addMusicYoutubeEt.setText("")
             initializeToneSpinner()
             binding.addMusicLineTv.text = "Line 1"
             lineNumber = 1
@@ -89,6 +91,11 @@ class AddMusicsFragment : Fragment() {
     private fun pageOperations() {
 
         binding.addMusicBtnNextPage.setOnClickListener {
+            mutableMapOfMusic[lineNumber] = mutableListOf(
+                binding.addMusicLyricsEt.text.toString(),
+                binding.addMusicChordEt.text.toString(),
+                binding.addMusicRhythmEt.text.toString()
+            )
             if (mutableMapOfMusic[lineNumber + 1] != null) {
                 binding.apply {
                     addMusicLyricsEt.setText(mutableMapOfMusic[lineNumber + 1]?.get(0))
@@ -99,11 +106,6 @@ class AddMusicsFragment : Fragment() {
                 binding.addMusicLineTv.text = "Line $lineNumber"
                 return@setOnClickListener
             }
-            mutableMapOfMusic[lineNumber] = mutableListOf(
-                binding.addMusicLyricsEt.text.toString(),
-                binding.addMusicChordEt.text.toString(),
-                binding.addMusicRhythmEt.text.toString()
-            )
             lineNumber++
             binding.addMusicLineTv.text = "Line $lineNumber"
             if (mutableMapOfMusic[lineNumber] == null) {
@@ -113,12 +115,13 @@ class AddMusicsFragment : Fragment() {
                     addMusicRhythmEt.setText("")
                 }
             }
+            Log.i("mutableMapOfMusic", mutableMapOfMusic.toString())
+            Log.i("lineNumber", lineNumber.toString())
         }
         binding.addMusicBtnBackPage.setOnClickListener {
             lineNumber--
             if (lineNumber == 0) {
                 lineNumber = 1
-                return@setOnClickListener
             }
             binding.apply {
                 addMusicLineTv.text = "Line $lineNumber"
@@ -151,6 +154,7 @@ class AddMusicsFragment : Fragment() {
             addMusicTonesTv.setText("C")
             addMusicLyricsEt.setText("")
             addMusicChordEt.setText("")
+            addMusicYoutubeEt.setText("")
             initializeToneSpinner()
             addMusicLineTv.text = "Line 1"
             lineNumber = 1

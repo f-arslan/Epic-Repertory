@@ -44,7 +44,7 @@
     <string name="add_your_music_line_by_line">Add Your Music Line by Line</string>
     <string name="line_1">Line 1</string>
     <string name="enter_your_lyrics">Enter your lyrics…</string>
-    <string name="rythm">Rhythm…</string>
+    <string name="rhythm">Rhythm…</string>
     <string name="enter_your_chord">Enter your chord…</string>
     <string name="select_your_tone">Select Your Tone</string>
     <string name="c_sharp">C#</string>
@@ -71,6 +71,11 @@
     <string name="_100">100</string>
     <string name="total_comments">Total Comments:</string>
     <string name="total_users">Total Users:</string>
+    <string name="watch_on_youtube">Watch on YouTube</string>
+    <string name="youtube">youtube</string>
+    <string name="enter_your_youtube_link">Enter your YouTube link…</string>
+    <string name="play">Play</string>
+    <string name="youtube_api_key">AIzaSyBvgG5kOPcUkxjgAppxttrw7go522268W4</string>
 
     <string-array name="tones">
         <item>C</item>

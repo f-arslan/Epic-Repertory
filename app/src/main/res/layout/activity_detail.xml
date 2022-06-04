@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ghost_white"
     tools:context=".DetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,146 +13,254 @@
         android:layout_margin="8dp">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/detail_up_container"
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/detail"
-            android:padding="8dp"
+            android:id="@+id/detail_header_card_view"
+            app:cardCornerRadius="15dp"
+            android:outlineSpotShadowColor="@color/orange_700"
+            app:cardElevation="10dp"
+            android:layout_margin="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/detail_iw_image"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:background="@drawable/background"
-                android:contentDescription="@string/detail_image"
-                android:outlineAmbientShadowColor="#ff0000"
-                android:outlineSpotShadowColor="#ff0000"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ImageContrastCheck"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <androidx.appcompat.widget.AppCompatCheckedTextView
-                android:id="@+id/detail_tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="25dp"
-                android:fontFamily="@font/athiti_bold"
-                android:text="@string/title"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                app:layout_constraintStart_toEndOf="@id/detail_iw_image"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/detail_tone_input_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:hint="@string/tones"
-                app:hintAnimationEnabled="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <AutoCompleteTextView
-                    android:id="@+id/detail_tone_textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:dropDownHeight="250dp"
-                    android:fontFamily="@font/baloo_thambi"
-                    android:inputType="none"
-
-                    android:textColor="@color/dark_blue"
-                    android:textSize="16sp"
-                    tools:ignore="LabelFor" />
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <ScrollView
-            android:id="@+id/detail_scroll_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detail_up_container"
-            tools:ignore="NestedScrolling">
-
-            <androidx.appcompat.widget.AppCompatCheckedTextView
-                android:id="@+id/detail_tv_lyrics"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detail_up_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/detail"
-                android:fontFamily="@font/baloo_thambi"
-                android:isScrollContainer="true"
-                android:maxHeight="400dp"
-                android:padding="8dp"
-                android:scrollbars="vertical"
-                android:singleLine="false"
-                android:text="@string/lyrics"
-                android:textSize="16sp" />
-        </ScrollView>
+                android:padding="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/detail_iw_image"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:elevation="50dp"
+                    android:background="@drawable/background"
+                    android:contentDescription="@string/detail_image"
+                    android:outlineAmbientShadowColor="#ff0000"
+                    android:outlineSpotShadowColor="#ff0000"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ImageContrastCheck"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <androidx.appcompat.widget.AppCompatCheckedTextView
+                    android:id="@+id/detail_tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/athiti_bold"
+                    android:text="@string/title"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toEndOf="@id/detail_iw_image"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/detail_tone_input_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/tones"
+                    app:hintAnimationEnabled="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/detail_tone_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:dropDownHeight="250dp"
+                        android:fontFamily="@font/baloo_thambi"
+                        android:inputType="none"
+
+                        android:textColor="@color/dark_blue"
+                        android:textSize="16sp"
+                        tools:ignore="LabelFor" />
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/detail_lyrics_card_view"
+            app:cardElevation="15dp"
+            android:layout_marginTop="16dp"
+            android:layout_margin="8dp"
+            android:outlineSpotShadowColor="@color/orange_700"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detail_header_card_view">
+
+            <ScrollView
+                android:id="@+id/detail_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_header_card_view"
+                tools:ignore="NestedScrolling">
+
+                <androidx.appcompat.widget.AppCompatCheckedTextView
+                    android:id="@+id/detail_tv_lyrics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo_thambi"
+                    android:isScrollContainer="true"
+                    android:maxHeight="400dp"
+                    android:padding="8dp"
+                    android:scrollbars="vertical"
+                    android:singleLine="false"
+                    android:text="@string/lyrics"
+                    android:textSize="16sp" />
+            </ScrollView>
+
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
 
         <!--- Write scrollable textview with max height !-->
 
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/detail_comment_et"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/detail"
-            android:fontFamily="@font/athiti_semibold"
-            android:hint="@string/write_a_comment"
-            android:padding="4dp"
-            android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detail_scroll_view" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/detail_btn_comment_send"
-            android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="12dp"
-            android:background="@android:drawable/list_selector_background"
-            android:backgroundTint="@color/dark_blue"
-            android:clickable="true"
-            android:drawableTint="@color/dark_blue"
-            android:gravity="start"
-            app:backgroundTint="@color/ghost_white"
-            app:icon="@drawable/ic_baseline_send_50"
-            app:iconGravity="start"
-            app:iconTint="@color/black"
-            app:layout_constraintStart_toEndOf="@id/detail_comment_et"
-            app:layout_constraintTop_toBottomOf="@id/detail_scroll_view" />
-
-        <LinearLayout
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:cardElevation="15dp"
+            android:layout_margin="12dp"
+            android:outlineSpotShadowColor="@color/orange_700"
+            app:layout_constraintTop_toBottomOf="@id/detail_lyrics_card_view"
+            android:id="@+id/detail_comment_card_view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:padding="4dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/detail_comment_et"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/athiti_semibold"
+                    android:hint="@string/write_a_comment"
+                    android:padding="4dp"
+                    android:minHeight="48dp"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="?attr/selectableItemBackground"
+                    android:id="@+id/detail_comment_ll"
+                    android:clickable="true"
+                    app:layout_constraintStart_toEndOf="@id/detail_comment_et"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/detail_btn_comment_send"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="6dp"
+                        app:cornerRadius="15dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/send"/>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:layout_width="match_parent"
+            android:id="@+id/detail_comment_container"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="10dp"
+            android:outlineSpotShadowColor="@color/orange_700"
+            android:layout_margin="8dp"
             android:layout_marginBottom="50dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detail_comment_et">
+            app:layout_constraintTop_toBottomOf="@id/detail_comment_card_view">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detail_comment_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="4dp"
+                android:padding="6dp"
                 android:scrollbars="vertical" />
-        </LinearLayout>
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/detail_youtube_card_view"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="15dp"
+            android:layout_margin="8dp"
+            android:outlineSpotShadowColor="@color/red"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detail_comment_container">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/detail_youtube_ll">
+
+                <LinearLayout
+                    android:id="@+id/detail_youtube_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:background="?attr/selectableItemBackground"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatCheckedTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/athiti_semibold"
+                        android:text="@string/watch_on_youtube"
+                        android:textSize="24sp" />
+
+                    <ImageButton
+                        android:id="@+id/detail_youtube_button"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="16dp"
+                        android:clickable="false"
+                        android:background="@drawable/youtube"
+                        android:contentDescription="@string/youtube"/>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detail_youtube_card_view"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

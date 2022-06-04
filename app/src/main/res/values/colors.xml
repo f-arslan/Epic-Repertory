@@ -11,4 +11,5 @@
     <color name="orange_700">#F44336</color>
     <color name="dark_blue">#162751</color>
     <color name="ghost_white">#FFF8F8F8</color>
+    <color name="red">#FFF44336</color>
 </resources>

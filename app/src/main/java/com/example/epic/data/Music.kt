@@ -10,4 +10,5 @@ data class Music(
     val chords: String? = null,
     val rhythms: String? = null,
     val tones: String? = null,
+    val youtubeLink: String? = null
 )
