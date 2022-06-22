@@ -1,6 +1,8 @@
 package com.example.epic.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.Intent.getIntent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -36,7 +38,12 @@ class AddMusicsFragment : Fragment() {
         initializeToneSpinner()
         pageOperations()
         val username = firebaseOperations.readUserNameFromFile()
-        addMusicToDatabase(username)
+        if (username != null) {
+            Log.i("USERNAME", username)
+        }
+        if (username != null) {
+            addMusicToDatabase(username)
+        }
 
         return viewOfLayout
     }

@@ -18,10 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Epic">
         <activity
-            android:name=".YouTubeActivity"
+            android:name=".AddToLibraryActivity"
             android:exported="false" />
         <activity
-            android:name=".YoutubePage"
+            android:name=".YouTubeActivity"
             android:exported="false" />
         <activity
             android:name=".DetailActivity"

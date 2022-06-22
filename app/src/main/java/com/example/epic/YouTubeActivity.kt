@@ -22,7 +22,7 @@ class YouTubeActivity : YouTubeBaseActivity() {
         setContentView(binding.root)
 
         val musicId = intent.getStringExtra("MUSIC_ID")
-        var youtubeLink = ""
+        var youtubeLink: String
         if (musicId != null) {
             Log.i("MUSIC_ID", musicId)
         }

@@ -8,12 +8,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.epic.DetailActivity
+import com.example.epic.FirebaseOperations
 import com.example.epic.R
 import com.example.epic.data.Music
+import com.example.epic.fragments.HomeFragment
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 
@@ -21,6 +25,9 @@ class SearchAdapter(
     private val musicList: MutableList<Music>,
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+
+    val firebaseDatabase = FirebaseDatabase.getInstance()
+    private lateinit var firebaseOperations: FirebaseOperations
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,7 +50,35 @@ class SearchAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = musicList[position]
-
+        firebaseOperations = FirebaseOperations(context = holder.itemView.context)
+        if (listener is HomeFragment) {
+            holder.trashImageView.visibility = View.VISIBLE
+            holder.trashImageView.setOnClickListener {
+                val builder: AlertDialog.Builder = AlertDialog.Builder(holder.itemView.context)
+                builder.setTitle("Delete")
+                builder.setMessage("Are you sure you want to delete this song?")
+                builder.setPositiveButton("Yes") { _, _ ->
+                    firebaseDatabase.getReference("Musics").child(currentItem.id.toString())
+                        .removeValue()
+                    val username = firebaseOperations.readUserNameFromFile()
+                    firebaseDatabase.getReference("Users").child(username.toString())
+                        .child("musicList").get().addOnSuccessListener {
+                        val musicList = it.value.toString().split(",")
+                        val newMusicList = StringBuilder()
+                        for (music in musicList) {
+                            if (music != currentItem.id.toString()) {
+                                newMusicList.append(music)
+                                newMusicList.append(",")
+                            }
+                        }
+                        firebaseDatabase.getReference("Users").child(username.toString())
+                            .child("musicList").setValue(newMusicList.toString())
+                    }
+                }
+                builder.setNegativeButton("No") { _, _ -> }
+                builder.show()
+            }
+        }
         currentItem.cover?.let { getImageFromStorage(it, holder) }
         holder.titleTextView.text = currentItem.title
         holder.artistTextView.text = currentItem.artist
@@ -62,6 +97,7 @@ class SearchAdapter(
         val titleTextView: TextView = itemView.findViewById(R.id.item_title)
         val artistTextView: TextView = itemView.findViewById(R.id.item_artist)
         val constraintLayout: ConstraintLayout = itemView.findViewById(R.id.constraintLayout)
+        val trashImageView: ImageView = itemView.findViewById(R.id.item_trash)
 
 
         init {

@@ -8,6 +8,8 @@ import androidx.core.content.ContextCompat.startActivity
 import com.example.epic.data.Comment
 import com.example.epic.data.Music
 import com.example.epic.data.User
+import com.example.epic.fragments.AddMusicsFragment
+import com.example.epic.fragments.HomeFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,38 +23,43 @@ class FirebaseOperations(private val context: Context) {
     private var firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
 
 
-    private fun getUser(email: String) {
-        firebaseDatabase.getReference("Users").get().addOnSuccessListener {
-            if (it.exists()) {
-                for (user in it.children) {
-                    val userData = user.getValue(User::class.java)
-                    if (userData!!.email == email) {
-                        // Create txt file and add the username
-                        val file = context.openFileOutput("user.txt", Context.MODE_PRIVATE)
-                        file.write(userData.username?.toByteArray())
+    fun getUser(email: String) {
+        firebaseDatabase.getReference("Users").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseOperations", "Error: $error")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (user in snapshot.children) {
+                    if (user.child("email").value == email) {
+                        val userData = user.getValue(User::class.java)
+                        Log.i("FirebaseOperations USERNAME", "User: $userData")
+                        if (userData != null) {
+                            // Write username to "user.txt"
+                           writeToFile(userData.username)
+                        }
+                        break
                     }
                 }
             }
-        }
+        })
+
     }
 
-    fun readUserNameFromFile(): String {
-        val fileInputStream = context.openFileInput("user.txt")
-        val inputStreamReader = InputStreamReader(fileInputStream)
-        val bufferedReader = BufferedReader(inputStreamReader)
-
-        val stringBuilder: StringBuilder = StringBuilder()
-        var text: String?
-
-        while (run {
-                text = bufferedReader.readLine()
-                text
-            } != null) {
-            stringBuilder.append(text)
-        }
-        bufferedReader.close()
-        return stringBuilder.toString()
+    private fun writeToFile(username: String?) {
+        val file = context.openFileOutput("user.txt", Context.MODE_PRIVATE)
+        file.write(username?.toByteArray())
+        file.close()
     }
+
+    fun readUserNameFromFile(): String? {
+        val file = context.openFileInput("user.txt")
+        val reader = BufferedReader(InputStreamReader(file))
+        val username = reader.readLine()
+        reader.close()
+        return username
+    }
+
 
     fun signUpToAuthentication(email: String, password: String): Boolean {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
@@ -74,7 +81,7 @@ class FirebaseOperations(private val context: Context) {
         username: String,
         password: String
     ) {
-        val user = User(username, fullName, email, password, ",")
+        val user = User(username, fullName, email, password, "")
         val database = firebaseDatabase.getReference("Users")
         database.child(username).setValue(user).addOnFailureListener {
             showMessage("Database operation failed")
@@ -88,7 +95,9 @@ class FirebaseOperations(private val context: Context) {
                 showMessage("Sign in failed")
                 return@addOnCompleteListener
             }
-            getUser(email)
+            if (task.isSuccessful) {
+                getUser(email)
+            }
             changeActivity()
         }
 
@@ -117,7 +126,12 @@ class FirebaseOperations(private val context: Context) {
 
             override fun onDataChange(p0: DataSnapshot) {
                 val musicList = p0.value.toString()
-                val newMusicList = musicList + "," + music.id.toString()
+                Log.i("musicList", musicList)
+                val newMusicList: String = if (musicList == "null") {
+                    music.id.toString()
+                } else {
+                    musicList + "," + music.id.toString()
+                }
                 userDatabase.child(username).child("musicList").setValue(newMusicList)
                 Log.i("MusicList", newMusicList)
             }
@@ -127,6 +141,7 @@ class FirebaseOperations(private val context: Context) {
 
     private fun changeActivity() {
         showMessage("Sign in successful")
+        Log.i("FirebaseOperations", "Sign in successful")
         val intent = Intent(context, MainActivity::class.java)
         startActivity(context, intent, null)
     }

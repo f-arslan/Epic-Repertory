@@ -51,44 +51,63 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="25dp"
                     android:fontFamily="@font/athiti_bold"
                     android:text="@string/title"
                     android:textAlignment="center"
                     android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/detail_iw_image"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/detail_tone_input_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:hint="@string/tones"
-                    app:hintAnimationEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/detail_tone_textView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:dropDownHeight="250dp"
-                        android:fontFamily="@font/baloo_thambi"
-                        android:inputType="none"
-
-                        android:textColor="@color/dark_blue"
-                        android:textSize="16sp"
-                        tools:ignore="LabelFor" />
-
-
-                </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:id="@+id/detail_btn_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detail_header_card_view"
+            android:orientation="horizontal"
+            tools:ignore="UselessLeaf" >
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/detail_add_to_library_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/add_to_your_library"
+                app:cornerRadius="10dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/detail_tone_input_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/tones"
+                app:hintAnimationEnabled="true">
+                <AutoCompleteTextView
+                    android:id="@+id/detail_tone_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:dropDownHeight="250dp"
+                    android:fontFamily="@font/baloo_thambi"
+                    android:inputType="none"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="16sp"
+                    tools:ignore="LabelFor" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
 
 
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
@@ -101,15 +120,13 @@
             android:outlineSpotShadowColor="@color/orange_700"
             app:cardCornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detail_header_card_view">
+            app:layout_constraintTop_toBottomOf="@id/detail_btn_container">
 
             <ScrollView
                 android:id="@+id/detail_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detail_header_card_view"
                 tools:ignore="NestedScrolling">
 
                 <androidx.appcompat.widget.AppCompatCheckedTextView
@@ -133,17 +150,18 @@
 
 
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:cardElevation="15dp"
             android:layout_margin="12dp"
             android:outlineSpotShadowColor="@color/orange_700"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/detail_lyrics_card_view"
             android:id="@+id/detail_comment_card_view">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:padding="4dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +169,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/detail_comment_et"
-                    android:layout_width="300dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/athiti_semibold"
                     android:hint="@string/write_a_comment"
@@ -178,7 +196,7 @@
                         android:layout_marginTop="6dp"
                         app:cornerRadius="15dp"
                         android:layout_marginStart="8dp"
-                        android:background="@drawable/send"/>
+                        android:background="@drawable/send" />
 
                 </LinearLayout>
 

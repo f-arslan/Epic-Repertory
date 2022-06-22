@@ -76,6 +76,13 @@
     <string name="enter_your_youtube_link">Enter your YouTube link…</string>
     <string name="play">Play</string>
     <string name="youtube_api_key">AIzaSyBvgG5kOPcUkxjgAppxttrw7go522268W4</string>
+    <string name="your_library">Your Library</string>
+    <string name="add_to_your_library">Add to your library</string>
+    <string name="chords">Chords</string>
+    <string name="rhythms">Rhythms</string>
+    <string name="save">Save</string>
+    <string name="enter_your_new_title">Enter Your New Title</string>
+    <string name="trash">trash</string>
 
     <string-array name="tones">
         <item>C</item>

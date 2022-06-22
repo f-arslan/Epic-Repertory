@@ -57,6 +57,9 @@ class SearchFragment : Fragment(), SearchAdapter.OnItemClickListener {
                 musicListDb.clear()
                 for (data in p0.children) {
                     val music = data.getValue(Music::class.java)
+                    if (music?.isGlobalMusic == "false") {
+                        continue
+                    }
                     musicListDb.add(music!!)
                 }
                 adapter = SearchAdapter(musicListDb, this@SearchFragment)

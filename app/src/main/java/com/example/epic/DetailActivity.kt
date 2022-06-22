@@ -62,8 +62,17 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
         recycleViewInit()
         sendCommentButton(musicId)
         tonesListOperations()
+        addToLibrary(musicId)
         goToYoutubePage(musicId)
 
+    }
+
+    private fun addToLibrary(musicId: String?) {
+        binding.detailAddToLibraryBtn.setOnClickListener {
+            val intent = Intent(this, AddToLibraryActivity::class.java)
+            intent.putExtra("MUSIC_ID", musicId)
+            startActivity(intent)
+        }
     }
 
     private fun goToYoutubePage(musicId: String?) {
