@@ -126,21 +126,18 @@ class FirebaseOperations(private val context: Context) {
 
             override fun onDataChange(p0: DataSnapshot) {
                 val musicList = p0.value.toString()
-                Log.i("musicList", musicList)
                 val newMusicList: String = if (musicList == "null") {
                     music.id.toString()
                 } else {
                     musicList + "," + music.id.toString()
                 }
                 userDatabase.child(username).child("musicList").setValue(newMusicList)
-                Log.i("MusicList", newMusicList)
             }
         })
 
     }
 
     private fun changeActivity() {
-        showMessage("Sign in successful")
         Log.i("FirebaseOperations", "Sign in successful")
         val intent = Intent(context, MainActivity::class.java)
         startActivity(context, intent, null)
@@ -150,5 +147,7 @@ class FirebaseOperations(private val context: Context) {
     private fun showMessage(s: String) {
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show()
     }
+
+
 
 }

@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.epic.adapters.DetailCommentAdapter
 import com.example.epic.data.Comment
@@ -228,10 +229,8 @@ class DetailActivity : AppCompatActivity(), DetailCommentAdapter.OnItemClickList
                     }
                     val music = data.getValue(Music::class.java)
                     if (music != null) {
-                        if (music.youtubeLink != null) {
-                            binding.detailYoutubeContainer.visibility = View.VISIBLE
-                        } else {
-                            binding.detailYoutubeContainer.visibility = View.GONE
+                        if (music.youtubeLink != "") {
+                            binding.detailYoutubeCardView.visibility = View.VISIBLE
                         }
                     }
                     binding.apply {

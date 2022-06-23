@@ -83,6 +83,15 @@
     <string name="save">Save</string>
     <string name="enter_your_new_title">Enter Your New Title</string>
     <string name="trash">trash</string>
+    <string name="welcome">Welcome,</string>
+    <string name="update_your_name">Update your name</string>
+    <string name="change_your_name">Change your name</string>
+    <string name="change_your_email">Change your email</string>
+    <string name="enter_your_password_again">Enter your password again</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="update_your_profile">Update your profile</string>
+    <string name="change_your_username">Change your username</string>
+    <string name="setting_email">Email:</string>
 
     <string-array name="tones">
         <item>C</item>

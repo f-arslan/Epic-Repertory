@@ -18,12 +18,6 @@ class SignInActivity : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // For debug
-        binding.apply {
-            signInEtEmail.setText("f@gmail.com")
-            signInEtPassword.setText("123456")
-        }
-
         loginProcess()
 
 
